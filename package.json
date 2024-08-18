@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev",
     "lint": "next lint",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -33,6 +33,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
+    "sst": "3.0.42",
     "tailwind-merge": "^2.5.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
