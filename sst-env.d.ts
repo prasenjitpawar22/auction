@@ -7,6 +7,11 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
+    "update-bid-status": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
   }
 }
 export {}

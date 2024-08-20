@@ -1,4 +1,4 @@
-import { BidsTable } from "@/components/bids";
+import { BidsTable } from "@/components/tables/bids";
 import { Button } from "@/components/ui/button";
 import {
   Card,

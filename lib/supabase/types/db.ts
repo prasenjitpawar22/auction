@@ -11,18 +11,21 @@ export type Database = {
     Tables: {
       bid_items: {
         Row: {
+          bid_id: number
           created_at: string
           description: string | null
           id: number
           name: string | null
         }
         Insert: {
+          bid_id: number
           created_at?: string
           description?: string | null
           id?: number
           name?: string | null
         }
         Update: {
+          bid_id?: number
           created_at?: string
           description?: string | null
           id?: number
@@ -30,9 +33,9 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "bid_items_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
+            foreignKeyName: "bid_items_bid_id_fkey"
+            columns: ["bid_id"]
+            isOneToOne: false
             referencedRelation: "bids"
             referencedColumns: ["id"]
           },
@@ -42,24 +45,37 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          status: number
           title: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
+          status?: number
           title?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: number
+          status?: number
           title?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "bids_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "bid_items"
+            foreignKeyName: "bids_status_fkey"
+            columns: ["status"]
+            isOneToOne: false
+            referencedRelation: "status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bids_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -99,6 +115,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      status: {
+        Row: {
+          created_at: string
+          id: number
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {

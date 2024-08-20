@@ -24,8 +24,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CreateBidModal } from "../modals/create-bid-modal";
-import { Dialog } from "../ui/dialog";
+import { CreateBidModal } from "../../modals/create-bid-modal";
+import { Dialog } from "../../ui/dialog";
 import { useState } from "react";
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -86,20 +86,20 @@ export function DataTable({ data }: { data: Payment[] }) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, onOpenChange] = useState(false);
 
   return (
     <div className="flex flex-col gap-1">
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <Button
           variant={"outline"}
-          onClick={() => setIsOpen(true)}
+          onClick={() => onOpenChange(true)}
           className="w-fit flex items-center justify-center gap-1"
         >
           Add
           <PlusCircleIcon size={12} />
         </Button>
-        <CreateBidModal setIsOpen={setIsOpen} isOpen={isOpen} />
+        <CreateBidModal isOpen={isOpen} onOpenChnage={onOpenChange} />
       </Dialog>
       <div className="rounded-md border">
         <Table>
@@ -112,9 +112,9 @@ export function DataTable({ data }: { data: Payment[] }) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { createBidSchema } from "@/app/actions/schema";
 import { Button } from "@/components/ui/button";
@@ -26,23 +26,39 @@ import { Textarea } from "../ui/textarea";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { TimePickerDemo } from "../ui/extended/time-picker";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { useAction } from "next-safe-action/hooks";
+import { createBidAdction } from '@/app/actions/create-bid-action'
+import { toast } from "sonner";
 
 export const CreateBidModal = ({
   isOpen,
-  setIsOpen,
+  onOpenChnage
 }: {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onOpenChnage:
+  Dispatch<SetStateAction<boolean>>
 }) => {
+  const createBid = useAction(createBidAdction, {
+    onSuccess: () => {
+      onOpenChnage(false)
+      toast('Bid created')
+    },
+    onError: (e) => {
+      console.log(e);
+      console.log('error');
+
+    }
+  });
+
   const form = useForm<z.infer<typeof createBidSchema>>({
     resolver: zodResolver(createBidSchema),
     defaultValues: {
       title: "",
       items: [{ name: "", description: "" }],
-      endDateTime: new Date(),
+      endDateTime: addDays(new Date(), 1),
       startDateTime: new Date(),
     },
   });
@@ -52,14 +68,10 @@ export const CreateBidModal = ({
     name: "items",
   });
 
-  const onSubmit = form.handleSubmit(
-    (data) => {
-      console.log(data);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  function onSubmit(values: z.infer<typeof createBidSchema>) {
+    createBid.execute(values);
+    console.log(values);
+  }
 
   useEffect(() => {
     form.reset();
@@ -68,7 +80,7 @@ export const CreateBidModal = ({
   return (
     <DialogContent className="sm:max-w-[525px]">
       <Form {...form}>
-        <form onSubmit={onSubmit} className="flex flex-col gap-1">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-1">
           <DialogHeader>
             <DialogTitle>Create New Bid</DialogTitle>
             <DialogDescription>

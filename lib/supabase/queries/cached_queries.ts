@@ -9,6 +9,9 @@ export const getSession = cache(async () => {
     return supabase.auth.getSession();
 });
 
+// no data in table. not valid
+// implementation remaining... 
+// TODO: 
 export const getUser = async () => {
     const {
         data: { session },

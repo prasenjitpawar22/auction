@@ -1,5 +1,4 @@
 import { DataTable } from "./table";
-import { CreateBidModal } from "../modals/create-bid-modal";
 
 export type Payment = {
   id: string;
