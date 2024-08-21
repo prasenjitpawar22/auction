@@ -13,6 +13,10 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    // if (error) return NextResponse.redirect('/')
+    // console.log(error, 'error');
+
     if (!error) {
       const {
         data: { user },
@@ -21,6 +25,7 @@ export async function GET(request: Request) {
       // if no metadata - user role.
       if (!user?.user_metadata?.role) {
         await supabase.auth.updateUser({ data: { role } });
+        // await supabase.from("")
       }
       // already a user with a different role!
       else if (user.user_metadata.role !== role) {

@@ -2,7 +2,6 @@ import {
     createSafeActionClient,
     DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action";
-import { cookies } from "next/headers";
 import { z } from "zod";
 import { createClient } from "../supabase/server";
 
@@ -29,9 +28,9 @@ const actionClient = createSafeActionClient({
     // Here we await the action execution.
     const result = await next();
 
-    // console.log("Result ->", result);
-    // console.log("Client input ->", clientInput);
-    // console.log("Metadata ->", metadata);
+    console.log("Result ->", result);
+    console.log("Client input ->", clientInput);
+    console.log("Metadata ->", metadata);
 
     // And then return the result of the awaited action.
     return result;

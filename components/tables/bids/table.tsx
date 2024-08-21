@@ -1,6 +1,6 @@
 "use client";
 import { MoreHorizontal, PlusCircleIcon } from "lucide-react";
-import { Payment } from ".";
+import { Bid } from ".";
 import {
   ColumnDef,
   flexRender,
@@ -27,26 +27,28 @@ import {
 import { CreateBidModal } from "../../modals/create-bid-modal";
 import { Dialog } from "../../ui/dialog";
 import { useState } from "react";
-export const columns: ColumnDef<Payment>[] = [
+import { format } from "date-fns";
+import { STATUS } from "@/lib/supabase/types/constants";
+
+export const columns: ColumnDef<Bid>[] = [
+  {
+    accessorKey: "title",
+    header: "Title",
+  },
   {
     accessorKey: "status",
     header: "Status",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="font-medium">{formatted}</div>;
+      const status: number = row.getValue('status')
+      return <div className=""> {STATUS[status]} </div>
+    }
+  },
+  {
+    accessorKey: "created_at",
+    header: () => <div className="">Created At</div>,
+    cell: ({ row }) => {
+      const amount = format(row.getValue('created_at'), 'MM-dd-yyyy');
+      return <div className="font-medium">{amount}</div>;
     },
   },
   {
@@ -65,7 +67,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(`${payment.id}`)}
             >
               Copy payment ID
             </DropdownMenuItem>
@@ -79,7 +81,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export function DataTable({ data }: { data: Payment[] }) {
+export function DataTable({ data }: { data: Bid[] }) {
   const table = useReactTable({
     data,
     columns,

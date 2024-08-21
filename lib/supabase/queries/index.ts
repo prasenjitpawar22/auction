@@ -8,8 +8,7 @@ export async function getUserQuery(supabase: Client, userId: string) {
         .throwOnError()
 }
 
-
-export async function getBidsQuery(suoabase: Client, userId: string) {
+export async function getBidsByUserIdQuery(suoabase: Client, userId: string) {
     return suoabase
         .from('bids')
         .select('*')

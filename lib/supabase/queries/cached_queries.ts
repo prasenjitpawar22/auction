@@ -24,7 +24,7 @@ export const getUser = async () => {
 
     const supabase = createClient();
 
-    const getCachedUser = unstable_cache(
+    return unstable_cache(
         async () => {
             return getUserQuery(supabase, userId);
         },
@@ -34,6 +34,4 @@ export const getUser = async () => {
             revalidate: 180,
         },
     );
-
-    return getCachedUser;
 };
